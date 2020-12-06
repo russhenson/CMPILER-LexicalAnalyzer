@@ -68,8 +68,10 @@ public class LexicalAnalyzer {
                         state = 13;
                     else if(c == '$')
                         state = 12;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19; // hell state
+                    }
                         
                 }
                 break;
@@ -79,24 +81,30 @@ public class LexicalAnalyzer {
                         state = 2;
                     else if(c == 'M')
                         state = 7;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19; 
+                    }
                 }
                 break;
 
                 case 2: {
                     if(c == 'D')
                         state = 3;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
                 case 3: {
                     if(c == 'D')
                         state = 4;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
@@ -105,16 +113,20 @@ public class LexicalAnalyzer {
                         state = 5;
                     else if(c == 'U')
                         state = 6;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
                 case 5: {
                     if(c == 'U')
                         state = 6;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
@@ -126,32 +138,40 @@ public class LexicalAnalyzer {
                 case 7: {
                     if(c == 'U')
                         state = 8;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
                 case 8: {
                     if(c == 'L')
                         state = 9;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
                 case 9: {
-                    if(c == 'T')
+                    if((c == 'T') && ((i+1) == word.length()))
+                        //state = 10; 
+                        state = 6;
+                    else {
                         state = 10;
-                    else
-                        tokenID = 3; //error
+                    }
                 }
                 break;
 
                 case 10: {
                     if(c == 'U')
                         state = 6;
-                    else
-                        tokenID = 0; //keyword
+                    else {
+                        tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
@@ -162,8 +182,10 @@ public class LexicalAnalyzer {
                         state = 15;
                     else if (num == 1 || num == 2)
                         state = 17;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
@@ -176,8 +198,10 @@ public class LexicalAnalyzer {
                         state = 15;
                     else if (num == 1 || num == 2)
                         state = 17;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
@@ -188,8 +212,10 @@ public class LexicalAnalyzer {
                         state = 15;
                     else if (num == 1 || num == 2)
                         state = 17;
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
@@ -199,13 +225,15 @@ public class LexicalAnalyzer {
                         tokenID = 1; //gpr
                     else if (prev2 == 'F')
                         tokenID = 2; //fpr
-                    else
+                    else {
                         tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
                 case 15: {
-                    if((prev == 'R' || prev == '$') && ((i+1) != word.length()))
+                    if((prev2 == 'R' || prev2 == '$') && ((i+1) != word.length()))
                         tokenID = 1; //gpr
                     else if ((prev == 'F')  && ((i+1) != word.length()))
                         tokenID = 2; //fpr
@@ -229,8 +257,12 @@ public class LexicalAnalyzer {
                         tokenID = 1; //gpr
                     else if ((prev2 == 'F') && ((i+1) != word.length()))
                         tokenID = 2; //fpr
-                    else
+                    else if(((i+1) != word.length()))
                         state = 18;
+                    else {
+                        tokenID = 3; //error
+                        state = 19;
+                    }
                 }
                 break;
 
@@ -240,6 +272,11 @@ public class LexicalAnalyzer {
                         tokenID = 1; //gpr
                     else if((num >= 0 && num <= 9) && (prev3 == 'F'))
                         tokenID = 2; //fpr
+                }
+                break;
+
+                case 19: { //hell state
+                    tokenID = 3;
                 }
                 break;
             }
